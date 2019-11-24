@@ -1,92 +1,42 @@
 const fs = require("fs");
 const os = require("os");
 const path = require("path");
+const parseArgs = require("minimist");
+
+const greenkeeper = require("./src/greenkeeper");
 
 const { cwd } = process;
 
 /**
- * --greenkeeper -g   // use greenkeeper config
+ * --greenkeeper -u   // use greenkeeper config
  * --lerna -l         // use lerna config
  * --json -j          // use json format
  * --markdown -m      // use markdown format
  * --csv -c           // use csv format
- * --csvPrefix -v     // set csv column separator
+ * --csvPrefix -x     // set csv column separator
  * --output -o        // set output file path
  * --production -p    // show only production dependencies
  * --development -d   // show only production dependencies
  * --root -r          // show only root direct dependencies
  * --exclude -e       // packages to exclude
- * --array -a         // array of package json
+ * --files -f         // package.json file list
  * --start -s         // path for initial package json file
+ * --into - i         // split into modules
+ * --group -u         // keep prod and dev dependencies in separate groups
+ * --values -v        // list of values to include in result
  */
 
-// helpers
-const readFile = encoding => file => fs.readFileSync(file, encoding);
-const readUTF8File = readFile("utf8");
-const readJSONFile = readFile => jsonFile => JSON.parse(readFile(jsonFile));
-const getObjectFromJSONFile = readJSONFile(readUTF8File);
-const saveInArray = array => element => array.push(element);
-const savePath = savePath => file => savePath(path.resolve(cwd(), file));
+const args = parseArgs(process.argv.slice(2));
 
-const arguments = process.argv.slice(2);
-
-console.log(arguments);
-
-const findPackagesJsonPaths = item => {
-  const packagesPath = [];
-  const savePackagesJsonPath = savePath(saveInArray(packagesPath));
-
-  if (!item) return packagesPath;
-
-  Object.keys(item).forEach(key => {
-    if (key === "packages" && Array.isArray(item[key])) {
-      item[key].forEach(savePackagesJsonPath);
-    } else if (item[key] instanceof Object) {
-      findPackagesJsonPaths(item[key]).forEach(savePackagesJsonPath);
-    }
-  });
-  return packagesPath;
-};
-
-if (fs.existsSync("greenkeeper.json")) {
-  const greenkeeperJSON = getObjectFromJSONFile("greenkeeper.json");
-
-  const paths = Object.entries(greenkeeperJSON.groups).reduce(
-    (newObject, [key, value]) => ({
-      ...newObject,
-      [key]: findPackagesJsonPaths(value)
-    }),
-    {}
-  );
-
-  const directDependencies = Object.entries(paths).reduce(
-    (newObject, [key, value]) => {
-      const modules = { ...newObject };
-      modules[key] = {};
-
-      value.forEach(value => {
-        if (fs.existsSync(value)) {
-          const { dependencies, devDependencies } = getObjectFromJSONFile(
-            value
-          );
-
-          modules[key].dependencies = {
-            ...modules[key].dependencies,
-            ...dependencies
-          };
-          modules[key].devDependencies = {
-            ...modules[key].devDependencies,
-            ...devDependencies
-          };
-        } else {
-          throw new Error(`'${value}' is missing.`);
-        }
-      });
-
-      return modules;
-    },
-    {}
-  );
+if (args.l && args.g) {
+  throw new Error();
+} else if (args.g) {
+  const { getDirectDependencies } = greenkeeper;
+  const directDependencies = getDirectDependencies("greenkeeper.json");
 
   console.log(directDependencies);
+} else if (args.l) {
+  console.log("use lerna json to get dependencies");
+} else {
+  console.log("get dependencies from main package.json");
 }

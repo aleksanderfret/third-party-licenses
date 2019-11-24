@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/alemikolo/third-party-licenses/issues"
   },
-  "homepage": "https://github.com/alemikolo/third-party-licenses#readme"
+  "homepage": "https://github.com/alemikolo/third-party-licenses#readme",
+  "dependencies": {
+    "minimist": "1.2.0"
+  }
 }
