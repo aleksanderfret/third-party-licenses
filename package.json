@@ -1,0 +1,22 @@
+{
+  "name": "third-party-licenses",
+  "version": "0.1.0",
+  "description": "Third party licenses report maker",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alemikolo/third-party-licenses.git"
+  },
+  "keywords": [
+    "license"
+  ],
+  "author": "Aleksander Fret",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alemikolo/third-party-licenses/issues"
+  },
+  "homepage": "https://github.com/alemikolo/third-party-licenses#readme"
+}
