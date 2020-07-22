@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/alemikolo/third-party-licenses.git"
+    "url": "git+https://github.com/aleksanderfret/third-party-licenses.git"
   },
   "keywords": [
     "license"
@@ -16,9 +16,9 @@
   "author": "Aleksander Fret",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/alemikolo/third-party-licenses/issues"
+    "url": "https://github.com/aleksanderfret/third-party-licenses/issues"
   },
-  "homepage": "https://github.com/alemikolo/third-party-licenses#readme",
+  "homepage": "https://github.com/aleksanderfret/third-party-licenses#readme",
   "dependencies": {
     "minimist": "1.2.0"
   }
