@@ -20,6 +20,6 @@
   },
   "homepage": "https://github.com/aleksanderfret/third-party-licenses#readme",
   "dependencies": {
-    "minimist": "1.2.0"
+    "minimist": "1.2.3"
   }
 }
